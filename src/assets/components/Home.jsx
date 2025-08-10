@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { addToPaste, updateToPaste } from '../redux/pasteSlice';
 
@@ -8,19 +8,30 @@ const Home = () => {
     const [value, setValue] = useState('');
     const [serachParams, setSearchParams] = useSearchParams();
     const pasteID = serachParams.get("pasteId");
-    const dispatch=useDispatch();
-
-    function createPaste(){
-        const paste={
-            title:title,
-            content:value,
-            _id:pasteID || Date.now().toString(36),
-            createdAt:new Date().toISOString(),
+    const dispatch = useDispatch();
+    const allPaste = useSelector((state) => state.paste.pastes);
+    useEffect(() => {
+        if (pasteID) {
+            const paste = allPaste.find((p) => p._id === pasteID);
+            setTitle(paste.title);
+            setValue(paste.content);
         }
-        if(pasteID){
+
+    }, [pasteID])
+
+    function createPaste() {
+        const paste = {
+            title: title,
+            content: value,
+            _id: pasteID || Date.now().toString(36),
+            createdAt: new Date().toISOString(),
+        }
+
+
+        if (pasteID) {
             //update paste
             dispatch(updateToPaste(paste));
-        }else{
+        } else {
             //create paste 
             dispatch(addToPaste(paste));
         }
@@ -47,12 +58,12 @@ const Home = () => {
                 </button>
             </div>
             <div className='mt-8'>
-                <textarea 
-                   className='rounded-2xl mt-4 min-w-[500px] p-4'
-                   value={value}
-                   placeholder='Enter Content here'
-                   onChange={(e) => setValue(e.target.value)}
-                   rows={20}
+                <textarea
+                    className='rounded-2xl mt-4 min-w-[500px] p-4'
+                    value={value}
+                    placeholder='Enter Content here'
+                    onChange={(e) => setValue(e.target.value)}
+                    rows={20}
 
                 />
             </div>

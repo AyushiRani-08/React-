@@ -4,7 +4,7 @@ import './App.css'
 import  Navbar from './assets/components/navbar'
 import Home  from './assets/components/Home'
 import ViewPaste  from './assets/components/viewPaste'
-import Pastes from './assets/components/Paste'
+import Paste from './assets/components/Paste'
 const router=createBrowserRouter(
   [
     {
@@ -18,7 +18,7 @@ const router=createBrowserRouter(
       path:"/pastes",
       element:<div>
         <Navbar/>
-        <Pastes/>
+        <Paste/>
       </div>
     },
     {

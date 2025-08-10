@@ -7,7 +7,7 @@ const initialState = {
 }
 
 export const pasteSlice = createSlice({
-  name: 'counter',
+  name: 'paste',
   initialState,
   reducers: {
     addToPaste: (state,action) => {
@@ -35,7 +35,7 @@ export const pasteSlice = createSlice({
     },
     removeFromPastes:(state,action) => {
       const pasteId= action.payload;
-      console.lof(pasteId);
+      console.log(pasteId);
       const index=state.pastes.findIndex((item) => item._id===pasteId);
       if(index >= 0){
         state.pastes.splice(index,1);
